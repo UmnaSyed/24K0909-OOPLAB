@@ -1,1 +1,38 @@
+#include <iostream>
+using namespace std;
 
+struct Student {
+    string name;
+    int rollNumber;
+    int marks[3];
+};
+
+int main() {
+    int numStudents;
+    cout << "Enter the number of students: ";
+    cin >> numStudents;
+
+    Student* students = new Student[numStudents];
+
+    for (int i = 0; i < numStudents; ++i) {
+        cout << "Enter details for student " << i + 1 << ":\n";
+        cout << "Name: ";
+        cin >> students[i].name;
+        cout << "Roll Number: ";
+        cin >> students[i].rollNumber;
+        cout << "Marks in 3 subjects: ";
+        for (int j = 0; j < 3; ++j) {
+            cin >> students[i].marks[j];
+        }
+    }
+
+    cout << "Student details and average marks:\n";
+    for (int i = 0; i < numStudents; ++i) {
+        double average = (students[i].marks[0] + students[i].marks[1] + students[i].marks[2]) / 3.0;
+        cout << "Name: " << students[i].name << ", Roll Number: " << students[i].rollNumber
+             << ", Average Marks: " << average << endl;
+    }
+
+    delete[] students;
+    return 0;
+}
