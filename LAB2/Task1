@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+
+
+struct Book {
+    string title;
+    string author;
+    int year;
+};
+
+
+int main() {
+    int num;
+    cout << "Enter the number of books you want to store: ";
+    cin >> num;
+
+
+    Book* books = new Book[num];
+
+
+    for (int i = 0; i < num; i++) {
+        cout << "Enter the title of the first book: ";
+        cin >> books[i].title;
+        cout << "Enter the name of the author of the first book: ";
+        cin >> books[i].author;
+        cout << "Enter the year of publish the first book: ";
+        cin >> books[i].year;
+    }
+
+
+    int search;
+    cout << "Enter the year to filter books published after: ";
+    cin >> search;
+
+
+    cout << "SEARCH RESULTS: \n";
+    for (int i = 0; i < num; i++) {
+        if (books[i].year > search) {
+            cout << books[i].title << " by " << books[i].author << " (" << books[i].year << ")\n";
+        }
+    }
+    delete[] books;
+    return 0;
+}
