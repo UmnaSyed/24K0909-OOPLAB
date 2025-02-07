@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+
+struct Employee
+{
+    string name;
+    float hoursWorked;
+    float hourlyRate;
+    float salary;
+};
+
+
+int main()
+{
+    int n;
+    cout << "Enter the number of employees: \n";
+    cin >> n;
+
+
+    Employee *emp = new Employee[n];
+
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Enter employee's name: \n";
+        cin >> emp[i].name;
+        cout << "Enter the hours worked by employee: \n";
+        cin >> emp[i].hoursWorked;
+        cout << "Enter employee's hourly rate: \n";
+        cin >> emp[i].hourlyRate;
+        emp[i].salary = emp[i].hourlyRate * emp[i].hoursWorked;
+    }
+
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Name: " << emp[i].name << endl;
+        cout << "Number of hours worked: " << emp[i].hoursWorked << endl;
+        cout << "Hourly rate: " << emp[i].hourlyRate << endl;
+        cout << "Salary: " << emp[i].salary << endl;
+    }
+
+
+    delete[] emp;
+    return 0;
+}
