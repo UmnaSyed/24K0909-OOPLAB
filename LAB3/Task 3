@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+
+class Library {
+private:
+    string bookList[100];
+    string borrowedBooks[100];
+    string availableBooks[100];
+    int bookCount;
+    int borrowedCount;
+    int availableCount;
+
+public:
+    Library(){
+        bookCount=0;
+        borrowedCount=0;
+        availableCount=0;
+    }
+
+    void addBook(string book) {
+        if (bookCount < 100) {
+            bookList[bookCount+1] = book;
+            availableBooks[availableCount+1] = book;
+            cout << "Added " << book << " to the library." << endl;
+        } else {
+            cout << "Library is full! Cannot add more books." << endl;
+        }
+    }
+
+    void lendBook(string book) {
+        for (int i = 0; i < availableCount; i++) {
+            if (availableBooks[i] == book) {
+                borrowedBooks[borrowedCount++] = book;
+                availableBooks[i] = availableBooks[availableCount-1]; 
+                cout << "Borrowed: " << book << endl;
+                return;
+            }
+        }
+        cout << "Book not available for borrowing." << endl;
+    }
+
+    void returnBook(string book) {
+        for (int i = 0; i < borrowedCount; i++) {
+            if (borrowedBooks[i] == book) {
+                availableBooks[availableCount++] = book;
+                borrowedBooks[i] = borrowedBooks[borrowedCount-1]; 
+                cout << book << " returned."<< endl;
+                return;
+            }
+        }
+        cout << "This book was not borrowed from the library." << endl;
+    }
+};
+
+int main() {
+    Library myLibrary;
+    myLibrary.addBook("The Book Thief");
+    myLibrary.addBook("Murder of History");
+    myLibrary.lendBook("Murder of History");
+    myLibrary.returnBook("Alice in the Wonderland");
+    
+    return 0;
+}
