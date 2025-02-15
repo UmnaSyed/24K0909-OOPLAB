@@ -1,1 +1,65 @@
+#include <iostream>
+using namespace std;
+
+class Wallet{
+    private:
+    string ownerName;
+    float totalBalance;
+    string transactionHistory[7];
+    int transCount;
+
+    public:
+    Wallet(string name){
+        ownerName=name;
+        totalBalance=0.0;
+        transCount=0;
+    }
+
+    void depositMoney(float amount){
+        if (transCount<7){
+            char history[50];
+            sprintf(history, "Deposited Rs. %.2f", amount);
+            transactionHistory[transCount]=history;
+            transCount++;
+            totalBalance+=amount;
+            cout<<"Rs. "<<amount<<" deposited in wallet. Your new balance is Rs. "<<totalBalance<<endl;
+        }
+        else {
+            cout<<"Maximum transaction limit reached, try after some time."<<endl;
+        }
+    }
+
+    void withdrawMoney(float amount){
+        if (transCount<7){
+            char history[50];
+            sprintf(history, "Rs. %.2f withdrawn", amount);
+            transactionHistory[transCount]=history;
+            transCount++;
+            totalBalance-=amount;
+            cout<<"Rs. "<<amount<<" withdrawn from wallet. Your new balance is Rs. "<<totalBalance<<endl;
+        }
+        else {
+            cout<<"Maximum transaction limit reached, try after some time."<<endl;
+        }
+    }
+
+    void displayTransHistory(){
+        int length;
+        length=sizeof(transactionHistory);
+
+        for(int i=0; i<length; i++){
+            cout<<transactionHistory[i]<<endl;
+        }
+    }
+
+};
+
+int main() {
+   Wallet wallet("Saad");
+   wallet.depositMoney(50000);
+   wallet.withdrawMoney(2500);
+   wallet.displayTransHistory();
+   
+    return 0;
+}
 
