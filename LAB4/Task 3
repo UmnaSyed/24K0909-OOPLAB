@@ -1,0 +1,73 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Car {
+private:
+    string brand, model;
+    double rentalPrice;
+    bool availability;
+
+public:
+    Car(string b, string m, double price, bool availabilityStatus){
+        brand=b;
+        model=m;
+        rentalPrice=price; 
+        availability=availabilityStatus; 
+    }
+
+    Car(const Car &c3){
+        brand=c3.brand;
+        model=c3.model;
+        rentalPrice=c3.rentalPrice;
+        availability=c3.availability;
+    }
+
+    void modifyDetails(string b, string m, float rp){
+        brand=b;
+        model=m;
+        rentalPrice=rp;
+    }
+
+    ~Car(){
+        cout<<"Car: "<<brand<<" : "<<model<<" removed"<<endl;
+    }
+
+    void applyDiscount(int days) {
+        if (days > 10) {
+            rentalPrice *= 0.90; 
+        }
+        if (days > 5) {
+            rentalPrice *= 0.95;
+        }
+    }
+
+    void rentCar(int days) {
+        if (availability) {
+            applyDiscount(days);
+            cout << "Car rented for " << days << " days. Total cost: $" << rentalPrice << endl;
+        } else {
+            cout << "Car is unavailable!" << endl;
+        }
+    }
+    void displayCar() {
+        cout << "Brand: " << brand << "\nModel: " << model << "\nPrice: $" << rentalPrice
+             << "\nAvailable: " << (availability ? "Yes" : "No") << endl;
+    }
+};
+
+int main() {
+    Car c1("Honda", "Elantra", 7359.500, true);
+    Car c2("Toyota", "Corolla", 47893.36, false);
+    Car c3=c1;
+    c1.modifyDetails("Suzuki", "Alto", 6355.34);
+
+    cout<<"Modified Details: \n";
+    c1.displayCar();
+    cout<<"Copied Car: \n";
+    c3.displayCar();
+    c1.rentCar(3);
+    c2.rentCar(10);  
+
+    return 0;
+}
