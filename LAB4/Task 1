@@ -1,1 +1,81 @@
+#include<iostream>
+using namespace std;
+
+class Car {
+    private:
+    string brand, model;
+    bool availablityStatus;
+    float rentalPrice;
+    public:
+    Car (){
+       brand="Unknown";
+       model="Generic";
+       availablityStatus=true;
+       rentalPrice=0.0;
+    }
+    Car(string b, string m, float price, bool available){
+        brand=b;
+        model=m;
+        rentalPrice=price;
+        availablityStatus=available;
+    }
+    Car (const Car& car2){
+        brand=car2.brand;
+        model=car2.model;
+        rentalPrice=car2.rentalPrice;
+        availablityStatus=car2.availablityStatus;
+        cout<<"Copied!"<<endl;
+    }
+    ~Car(){
+        cout<<"Car: "<< brand<<", "<<model<<" removed!"<<endl;
+    }
+
+    void updateDetails(string CarBrand, bool status, float rentPrice){
+        brand=CarBrand;
+        availablityStatus=status;
+        rentalPrice=rentPrice;
+        cout<<"Details Updated!"<<endl;
+    }
+
+    void checkAvailability(){
+        if (availablityStatus){
+            cout<<"This car is available for renting."<<endl;
+        }
+        else {
+            cout<<"This car is already rented."<< endl;
+        }
+    }
+
+    void rentCar(){
+       if (availablityStatus){
+        availablityStatus=false;
+        cout<<"Car rented!"<<endl;
+       } 
+       else{
+        cout<<"This car is already rented!"<<endl;
+       }
+    }
+
+    void displayDetails(){
+        cout<<brand<<", "<<model<<", "<<rentalPrice<<", "<<availablityStatus<<endl;
+    }
+
+};
+
+int main(){
+    Car car("Honda", "Elantra", 45094.09, true);
+    car.displayDetails();
+    car.checkAvailability();
+    car.rentCar();
+
+    Car car2=car;
+    cout<<"Details copied"<<endl;
+    car2.displayDetails();
+    car.updateDetails("Honda", false, 9999.00);
+    cout<<"Car 1 updated"<<endl;
+    car.displayDetails();
+    cout<<"Copied car remains unchanged"<<endl;
+    car2.displayDetails();
+    return 0;
+}
 
