@@ -19,15 +19,6 @@ class Car {
         rentalPrice=price;
         availablityStatus=available;
     }
-    Car (const Car& car2){
-        brand=car2.brand;
-        model=car2.model;
-        rentalPrice=car2.rentalPrice;
-        availablityStatus=car2.availablityStatus;
-        cout<<"Copied!"<<endl;
-    }
-    ~Car(){
-        cout<<"Car: "<< brand<<", "<<model<<" removed!"<<endl;
     }
 
     void updateDetails(string CarBrand, bool status, float rentPrice){
@@ -67,15 +58,6 @@ int main(){
     car.displayDetails();
     car.checkAvailability();
     car.rentCar();
-
-    Car car2=car;
-    cout<<"Details copied"<<endl;
-    car2.displayDetails();
-    car.updateDetails("Honda", false, 9999.00);
-    cout<<"Car 1 updated"<<endl;
-    car.displayDetails();
-    cout<<"Copied car remains unchanged"<<endl;
-    car2.displayDetails();
     return 0;
 }
 
