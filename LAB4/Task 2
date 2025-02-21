@@ -1,1 +1,50 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Car {
+private:
+    string brand, model;
+    double rentalPrice;
+    bool availability;
+
+public:
+    Car(string b, string m, double price, bool availabilityStatus){
+        brand=b;
+        model=m;
+        rentalPrice=price; 
+        availability=availabilityStatus; 
+    }
+
+    void applyDiscount(int days) {
+        if (days > 10) {
+            rentalPrice *= 0.90; 
+        }
+        if (days > 5) {
+            rentalPrice *= 0.95;
+        }
+    }
+
+    void rentCar(int days) {
+        if (availability) {
+            applyDiscount(days);
+            cout << "Car rented for " << days << " days. Total cost: $" << rentalPrice << endl;
+        } else {
+            cout << "Car is unavailable!" << endl;
+        }
+    }
+    void displayCar() {
+        cout << "Brand: " << brand << "\nModel: " << model << "\nPrice: $" << rentalPrice
+             << "\nAvailable: " << (availability ? "Yes" : "No") << endl;
+    }
+};
+
+int main() {
+    Car c1("Honda", "Elantra", 7359.500, true);
+    Car c2("Toyota", "Corolla", 47893.36, false);
+    c1.displayCar();
+    c1.rentCar(3);
+    c2.rentCar(10);  
+    return 0;
+}
 
