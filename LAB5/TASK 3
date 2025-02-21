@@ -1,0 +1,90 @@
+#include <iostream>
+using namespace std;
+
+class Employee; 
+
+class Project {
+private:
+    string title;
+    string deadline;
+    Employee* employees[5]; 
+    int empCount;
+
+public:
+    Project(string t, string d) {
+        title=t;
+        deadline=d;
+        empCount=0;
+    }
+
+    string getTitle(){
+        return title;
+    }
+
+    void addEmployee(Employee* emp){
+        if (empCount < 5) {
+        employees[empCount++] = emp;
+    }
+    }
+
+    void displayDetails(){
+        cout << "Project: " << title << " Deadline: " << deadline << "\n";
+    cout << "Assigned Employees:\n";
+    for (int i = 0; i < empCount; i++) {
+        cout<< employees[i]->getName()<< "\n";
+    }
+    }
+};
+
+class Employee {
+private:
+    string name;
+    string designation;
+    Project* projects[5];
+    int projCount;
+
+public:
+    Employee(string n, string d){
+        name=n;
+        designation=d;
+        projCount=0;
+    }
+
+    string getName(){
+        return name;
+    }
+
+    void assignProject(Project* proj) {
+        if (projCount < 5) {
+            projects[projCount++] = proj;
+            proj->addEmployee(this); 
+        }
+    }
+
+    void displayProjects() {
+        cout << "Employee: " << name << "\nDesignation: "<< designation <<"\n";
+        for (int i = 0; i < projCount; i++) {
+            cout << projects[i]-> getTitle() << "\n";
+        }
+    }
+    };
+
+int main() {
+    Employee emp1("Sarim", "Electrical Engineer");
+    Employee emp2("Ali", "Director");
+
+    Project proj1("CS Research", "2024-12-30");
+    Project proj2("AI Sensors", "2022-09-15");
+
+    emp1.assignProject(&proj1);
+    emp2.assignProject(&proj1);
+    emp1.assignProject(&proj2);
+
+    proj1.displayDetails();
+    proj2.displayDetails();
+
+    emp1.displayProjects();
+    emp2.displayProjects();
+
+    return 0;
+}
