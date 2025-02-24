@@ -1,1 +1,54 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Car {
+private:
+    string brand, model;
+    double rentalPrice;
+    bool availability;
+    double totalRevenue;
+    int carID;
+
+public:
+    Car(int id, string b, string m, double price) 
+        : carID(id), brand(b), model(m), rentalPrice(price), availability(true), totalRevenue(0.0) {}
+
+    void rentCar(int days) {
+        if (availability) {
+            availability = false;
+            double amount = rentalPrice * days;
+            totalRevenue += amount;
+            cout << "Car " << carID << " rented for " << days << " days. Total cost: $" << amount << endl;
+        } else {
+            cout << "Car " << carID << " is unavailable!" << endl;
+        }
+    }
+
+    void returnCar() {
+        availability = true;
+    }
+
+    void displayCar() {
+        cout << "Car ID: " << carID << ", Brand: " << brand << ", Model: " << model 
+             << ", Price: $" << rentalPrice << ", Revenue: $" << totalRevenue
+             << ", Available: " << (availability ? "Yes" : "No") << endl;
+    }
+};
+
+int main() {
+    Car c1(101, "Tesla", "Model 3", 120.0);
+    Car c2(102, "BMW", "M3", 150.0);
+
+    c1.rentCar(4);
+    c1.returnCar();
+    c1.rentCar(2);
+
+    c2.rentCar(6);
+
+    c1.displayCar();
+    c2.displayCar();
+
+    return 0;
+}
 
