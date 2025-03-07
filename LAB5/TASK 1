@@ -24,6 +24,7 @@ public:
 
     ~Apartment() {
         delete[] ownerName; 
+        court<<"\nDestructor Called!"<<endl;
     }
 
     void display(){
