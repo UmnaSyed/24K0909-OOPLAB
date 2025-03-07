@@ -19,8 +19,7 @@ public:
     Apartment(const Apartment& ap) {
         id=ap.id;
         address=ap.address;
-        this->ownerName = new char[strlen(ap.ownerName) + 1];
-        strcpy(this->ownerName, ap.ownerName);
+        ownerName=ap.ownerName;
     }
 
     ~Apartment() {
@@ -29,6 +28,10 @@ public:
 
     void display(){
         cout << "Apartment ID: " << id << "\nAddress: " << address << "\nOwner: " << ownerName << endl;
+    }
+
+    char* getOwnerName(){
+        return ownerName;
     }
 };
 
@@ -46,5 +49,11 @@ int main() {
     cout << "\nApartment 3:" << endl;
     a3.display();
 
+    strcpy(a1.getOwnerName(), "Arshad");
+
+    cout<<"\nApartment 1: "<<endl;
+    a1.display();
+
+    
     return 0;
 }
