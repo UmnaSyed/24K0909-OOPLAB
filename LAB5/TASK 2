@@ -1,1 +1,58 @@
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+class Student{
+    int id;
+    string name;
+    int* scores;
+    int scoresCount;
+
+    public:
+    Student(int Id, string n, const int* examScores, int scorecount){
+        id=Id;
+        name=n;
+        scoresCount=scorecount;
+        this->scores=new int[scoresCount];
+        for (int i=0; i<scoresCount; i++){
+            this->scores[i]=examScores[i];
+        }
+    }
+
+    ~Student(){
+        delete[] scores;
+        cout<<"Destructor called!"<<endl;
+    }
+
+    void display(){
+        cout<<"Student ID: "<<id<<"\nName: "<<name<<"\nExam Scores ";
+        for (int i=0; i<scoresCount; i++){
+            cout<<scores[i]<<" ";
+        }
+        cout<<endl;
+    }
+};
+
+int main(){
+    int scores1[]={45, 78, 56};
+    Student s1(637, "Hafsa", scores1, 3);
+
+    int scores3[]={97, 94, 90};
+    Student s3(678, "Aisha", scores3, 3);
+
+    Student s2=s1;
+    Student s4=s3;
+
+    cout<<"Student 1: "<<endl;
+    s1.display();
+
+    cout<<"\nStudent 2: "<<endl;
+    s2.display();
+
+    cout<<"\nStudent 3: "<<endl;
+    s3.display();
+
+    return 0;
+}
+
 
