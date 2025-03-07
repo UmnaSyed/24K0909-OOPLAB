@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Apartment {
+private:
+    int id;
+    string address;   
+    char* ownerName;  
+
+public:
+    Apartment(int iD, const string& adr, const char* name){
+        id=iD;
+        address=adr;
+        this->ownerName = new char[strlen(name) + 1];
+        strcpy(this->ownerName, name);
+    }
+
+    Apartment(const Apartment& ap) {
+        id=ap.id;
+        address=ap.address;
+        this->ownerName = new char[strlen(ap.ownerName) + 1];
+        strcpy(this->ownerName, ap.ownerName);
+    }
+
+    ~Apartment() {
+        delete[] ownerName; 
+    }
+
+    void display(){
+        cout << "Apartment ID: " << id << "\nAddress: " << address << "\nOwner: " << ownerName << endl;
+    }
+};
+
+int main() {
+    Apartment a1(340, "MA Jinnah Road", "Aslam");
+    Apartment a3(563, "Rashid Minhas Road", "Sadia Khan");
+    Apartment a2 = a1; 
+
+    cout << "\nApartment 1:" << endl;
+    a1.display();
+
+    cout << "\nApartment 2: " << endl;
+    a2.display();
+
+    cout << "\nApartment 3:" << endl;
+    a3.display();
+
+    return 0;
+}
