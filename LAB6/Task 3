@@ -1,0 +1,71 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+public:
+    Person(string name, int age) {
+        this->name = name;
+        this->age = age;
+    }
+
+    void displayPersonDetails() {
+        cout << "Name: " << name <<"\nAge: " << age << endl;
+    }
+};
+
+class Teacher : public Person {
+protected:
+    string subject;
+public:
+    Teacher(string name, int age, string subject) : Person(name, age) {
+        this->subject = subject;
+    }
+
+    void displayTeacherDetails() {
+        displayPersonDetails();
+        cout << "Subject: " << subject << endl;
+    }
+};
+
+class Researcher : public Person {
+protected:
+    string researchArea;
+public:
+    Researcher(string name, int age, string researchArea) : Person(name, age) {
+        this->researchArea = researchArea;
+    }
+
+    void displayResearcherDetails() {
+        displayPersonDetails();
+        cout << "Research Area: " << researchArea << endl;
+    }
+};
+
+class Professor : public Teacher, public Researcher {
+private:
+    int publications;
+public:
+    Professor(string name, int age, string subject, string researchArea, int publications)
+        : Teacher(name, age, subject), Researcher(name, age, researchArea) {
+        this->publications = publications;
+    }
+
+    void displayProfessorDetails() {
+        displayTeacherDetails();
+        cout << "Research Area: " << researchArea <<"\nPublications: " << publications << endl;
+    }
+};
+
+int main() {
+    Professor prof("Sir Ishtiaq Ahmed", 35, "Applied Physics", "Waves", 2);
+
+    cout << "Professor Details:\n";
+    prof.displayProfessorDetails();
+
+    return 0;
+}
