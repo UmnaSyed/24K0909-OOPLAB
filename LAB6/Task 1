@@ -34,19 +34,9 @@ public:
 };
 
 int main() {
-    string empName;
-    float empSalary, empBonus;
+    Manager mgr("Alice Johnson", 75000, 10000);
 
-    cout << "Enter Manager's Name: ";
-    cin >> empName;
-    cout << "Enter Manager's Salary: ";
-    cin >> empSalary;
-    cout << "Enter Manager's Bonus: ";
-    cin >> empBonus;
-
-    Manager mgr(empName, empSalary, empBonus);
-    
-    cout << "\nManager Details:\n";
+    cout << "Manager Details:\n";
     mgr.displayManagerDetails();
 
     return 0;
