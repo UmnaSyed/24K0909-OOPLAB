@@ -1,0 +1,59 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Account {
+protected:
+    int accountNumber;
+    float balance;
+public:
+    Account(int accountNumber, float balance) {
+        this->accountNumber = accountNumber;
+        this->balance = balance;
+    }
+
+    void displayAccountDetails() {
+        cout << "Account Number: " << accountNumber <<"\nBalance: $" << balance << endl;
+    }
+};
+
+class SavingsAccount : public Account {
+private:
+    float interestRate;
+public:
+    SavingsAccount(int accountNumber, float balance, float interestRate) : Account(accountNumber, balance) {
+        this->interestRate = interestRate;
+    }
+
+    void displaySavingsDetails() {
+        displayAccountDetails();
+        cout << "Interest Rate: " << interestRate << "%" << endl;
+    }
+};
+
+class CheckingAccount : public Account {
+private:
+    float overdraftLimit;
+public:
+    CheckingAccount(int accountNumber, float balance, float overdraftLimit) : Account(accountNumber, balance) {
+        this->overdraftLimit = overdraftLimit;
+    }
+
+    void displayCheckingDetails() {
+        displayAccountDetails();
+        cout << "Overdraft Limit: $" << overdraftLimit << endl;
+    }
+};
+
+int main() {
+    SavingsAccount savings(123563, 37932.4445, 5.5);
+    CheckingAccount checking(152623, 1130.40, 990);
+
+    cout << "Savings Account Details:\n";
+    savings.displaySavingsDetails();
+    
+    cout << "\nChecking Account Details:\n";
+    checking.displayCheckingDetails();
+
+    return 0;
+}
