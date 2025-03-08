@@ -1,0 +1,86 @@
+#include <iostream>
+
+using namespace std;
+
+class Device {
+protected:
+    int deviceID;
+    bool status;
+public:
+    Device(int deviceID, bool status) {
+        this->deviceID = deviceID;
+        this->status = status;
+    }
+
+    void displayDeviceDetails() {
+        cout << "Device ID: " << deviceID <<"\nStatus: ";
+        if (status) {
+            cout << "Active" << endl;
+        } else {
+            cout << "Inactive" << endl;
+        }
+    }
+};
+
+class SmartPhone : public Device {
+protected:
+    float screenSize;
+public:
+    SmartPhone(int deviceID, bool status, float screenSize) : Device(deviceID, status) {
+        this->screenSize = screenSize;
+    }
+
+    void displaySmartPhoneDetails() {
+        displayDeviceDetails();
+        cout << "Screen Size: " << screenSize << " inches" << endl;
+    }
+};
+
+class SmartWatch : public Device {
+protected:
+    bool heartRateMonitor;
+public:
+    SmartWatch(int deviceID, bool status, bool heartRateMonitor) : Device(deviceID, status) {
+        this->heartRateMonitor = heartRateMonitor;
+    }
+
+    void displaySmartWatchDetails() {
+        displayDeviceDetails();
+        cout << "Heart Rate Monitor: ";
+        if (heartRateMonitor) {
+            cout << "Yes" << endl;
+        } else {
+            cout << "No" << endl;
+        }
+    }
+};
+
+class SmartWearable : public SmartPhone, public SmartWatch {
+private:
+    int stepCounter;
+public:
+    SmartWearable(int deviceID, bool status, float screenSize, bool heartRateMonitor, int stepCounter) 
+        : SmartPhone(deviceID, status, screenSize), SmartWatch(deviceID, status, heartRateMonitor) {
+        this->stepCounter = stepCounter;
+    }
+
+    void displaySmartWearableDetails() {
+        displaySmartPhoneDetails();
+        cout << "Heart Rate Monitor: ";
+        if (heartRateMonitor) {
+            cout << "Yes" << endl;
+        } else {
+            cout << "No" << endl;
+        }
+        cout << "Step Counter: " << stepCounter << " steps" << endl;
+    }
+};
+
+int main() {
+    SmartWearable wearable(410, true, 12.4, true, 8920);
+
+    cout << "Smart Wearable Details:\n";
+    wearable.displaySmartWearableDetails();
+
+    return 0;
+}
