@@ -1,0 +1,145 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Product {
+protected:
+    string productID;
+    string productName;
+    float price;
+    int stockQuantity;
+
+public:
+    Product(string id, string name, float p, int stock) 
+        : productID(id), productName(name), price(p), stockQuantity(stock) {}
+
+    virtual void applyDiscount(float percent) {
+        price *= (1 - percent/100);
+        cout << "Applied " << percent << "% discount. New price: $" << price << endl;
+    }
+
+    virtual float calculateTotalPrice(int quantity) {
+        if (quantity > stockQuantity) {
+            cout << "Not enough stock! Only " << stockQuantity << " available." << endl;
+            return -1;
+        }
+        return price * quantity;
+    }
+
+    virtual void displayProductInfo() {
+        cout << "ID: " << productID << endl;
+        cout << "Name: " << productName << endl;
+        cout << "Price: $" << price << endl;
+        cout << "Stock: " << stockQuantity << endl;
+    }
+};
+
+class Electronics : public Product {
+private:
+    int warrantyPeriod;
+    string brand;
+
+public:
+    Electronics(string id, string name, float p, int stock, int warranty, string b) 
+        : Product(id, name, p, stock), warrantyPeriod(warranty), brand(b) {}
+
+    void displayProductInfo() override {
+        Product::displayProductInfo();
+        cout << "Brand: " << brand << endl;
+        cout << "Warranty: " << warrantyPeriod << " months" << endl;
+    }
+};
+
+class Clothing : public Product {
+private:
+    string size;
+    string color;
+    string fabricMaterial;
+
+public:
+    Clothing(string id, string name, float p, int stock, string s, string c, string fabric) 
+        : Product(id, name, p, stock), size(s), color(c), fabricMaterial(fabric) {}
+
+    void applyDiscount(float percent) override {
+        float totalDiscount = percent + 5;
+        price *= (1 - totalDiscount/100);
+        cout << "Applied " << totalDiscount << "% discount (seasonal offer). New price: $" << price << endl;
+    }
+
+    void displayProductInfo() override {
+        Product::displayProductInfo();
+        cout << "Size: " << size << endl;
+        cout << "Color: " << color << endl;
+        cout << "Material: " << fabricMaterial << endl;
+    }
+};
+
+class FoodItem : public Product {
+private:
+    string expirationDate;
+    int calories;
+
+public:
+    FoodItem(string id, string name, float p, int stock, string expDate, int cal) 
+        : Product(id, name, p, stock), expirationDate(expDate), calories(cal) {}
+
+    float calculateTotalPrice(int quantity) override {
+        if (quantity > stockQuantity) {
+            cout << "Not enough stock! Only " << stockQuantity << " available." << endl;
+            return -1;
+        }
+        if (quantity > 10) {
+            cout << "Applying 10% bulk discount..." << endl;
+            return price * quantity * 0.9;
+        }
+        return price * quantity;
+    }
+
+    void displayProductInfo() override {
+        Product::displayProductInfo();
+        cout << "Expires: " << expirationDate << endl;
+        cout << "Calories: " << calories << endl;
+    }
+};
+
+class Book : public Product {
+private:
+    string author;
+    string genre;
+
+public:
+    Book(string id, string name, float p, int stock, string a, string g) 
+        : Product(id, name, p, stock), author(a), genre(g) {}
+
+    void displayProductInfo() override {
+        Product::displayProductInfo();
+        cout << "Author: " << author << endl;
+        cout << "Genre: " << genre << endl;
+    }
+};
+
+int main() {
+
+    Electronics laptop("E1", "UltraBook Pro", 999.99, 15, 24, "TechMaster");
+    Clothing tshirt("C1", "Summer Tee", 29.99, 50, "M", "Blue", "Cotton");
+    FoodItem cereal("F1", "CHOCO Cereal", 4.99, 100, "2023-12-31", 120);
+    Book novel("B1", "The Great Adventure", 14.99, 30, "Roald Dahl", "Fiction");
+
+    laptop.displayProductInfo();
+    laptop.applyDiscount(10);
+    cout << "Total for 2 laptops: $" << laptop.calculateTotalPrice(2) << endl;
+
+    tshirt.displayProductInfo();
+    tshirt.applyDiscount(15);
+    cout << "Total for 3 t-shirts: $" << tshirt.calculateTotalPrice(3) << endl;
+
+    cereal.displayProductInfo();
+    cout << "Total for 5 cereals: $" << cereal.calculateTotalPrice(5) << endl;
+    cout << "Total for 15 cereals: $" << cereal.calculateTotalPrice(15) << endl;
+
+    novel.displayProductInfo();
+    novel.applyDiscount(5);
+    cout << "Total for 1 book: $" << novel.calculateTotalPrice(1) << endl;
+
+    return 0;
+}
