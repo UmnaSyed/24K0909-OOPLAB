@@ -1,0 +1,143 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+    string contactNumber;
+    string address;
+
+public:
+    Person(string n, int a, string contact, string addr) 
+        : name(n), age(a), contactNumber(contact), address(addr) {}
+
+    virtual void displayInfo() {
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "Contact: " << contactNumber << endl;
+        cout << "Address: " << address << endl;
+    }
+
+    virtual void updateInfo(string n, int a, string contact, string addr) {
+        name = n;
+        age = a;
+        contactNumber = contact;
+        address = addr;
+        cout << "Information updated successfully." << endl;
+    }
+};
+
+class Patient : public Person {
+private:
+    string patientID;
+    string medicalHistory;
+    string doctorAssigned;
+
+public:
+    Patient(string id, string n, int a, string contact, string addr, 
+           string history, string doctor) 
+        : Person(n, a, contact, addr), patientID(id), medicalHistory(history), doctorAssigned(doctor) {}
+
+    void displayInfo() override {
+        Person::displayInfo();
+        cout << "Patient ID: " << patientID << endl;
+        cout << "Medical History: " << medicalHistory << endl;
+        cout << "Assigned Doctor: " << doctorAssigned << endl;
+    }
+};
+
+class Doctor : public Person {
+private:
+    string specialization;
+    float consultationFee;
+    vector<string> patientList;
+
+public:
+    Doctor(string n, int a, string contact, string addr, 
+          string spec, float fee) 
+        : Person(n, a, contact, addr), specialization(spec), consultationFee(fee) {}
+
+    void addPatient(string patientName) {
+        patientList.push_back(patientName);
+    }
+
+    void displayInfo() override {
+        Person::displayInfo();
+        cout << "Specialization: " << specialization << endl;
+        cout << "Consultation Fee: $" << consultationFee << endl;
+        cout << "Patients: ";
+        for (const auto& patient : patientList) {
+            cout << patient << ", ";
+        }
+        cout << endl;
+    }
+};
+
+class Nurse : public Person {
+private:
+    string assignedWard;
+    string shiftTimings;
+
+public:
+    Nurse(string n, int a, string contact, string addr, 
+         string ward, string shift) 
+        : Person(n, a, contact, addr), assignedWard(ward), shiftTimings(shift) {}
+
+    void displayInfo() override {
+        Person::displayInfo();
+        cout << "Assigned Ward: " << assignedWard << endl;
+        cout << "Shift: " << shiftTimings << endl;
+    }
+};
+
+class Administrator : public Person {
+private:
+    string department;
+    float salary;
+
+public:
+    Administrator(string n, int a, string contact, string addr, 
+                 string dept, float sal) 
+        : Person(n, a, contact, addr), department(dept), salary(sal) {}
+
+    void updateInfo(string n, int a, string contact, string addr) override {
+        Person::updateInfo(n, a, contact, addr);
+        cout << "Administrator info updated in HR system." << endl;
+    }
+
+    void displayInfo() override {
+        Person::displayInfo();
+        cout << "Department: " << department << endl;
+        cout << "Salary: $" << salary << endl;
+    }
+};
+
+int main() {
+
+    Patient patient1("P1001", "Samina Ahmed", 35, "000-1234", "123 ABC St.", 
+                   "Diabetes, Hypertension", "Dr. Johnson");
+    Doctor doctor1("Dr. Salar Ahmed", 42, "000-5678", "456 East Ave", 
+                 "Cardiology", 250.00);
+    Nurse nurse1("Abdullah Ahmed", 28, "000-9012", "789 DEF Rd", 
+                "Emergency", "Night Shift");
+    Administrator admin1("Bakhtiyar", 38, "555-3456", "321 Plaza", 
+                       "HR", 65000.00);
+
+    doctor1.addPatient("Farhan Khan");
+    doctor1.addPatient("Farah Khanum");
+
+    patient1.displayInfo();
+
+    doctor1.displayInfo();
+
+    nurse1.displayInfo();
+
+    admin1.displayInfo();
+    cout << "\nUpdating administrator info..." << endl;
+    admin1.updateInfo("Sarah Wilson", 39, "555-3456", "321 Elm Blvd");
+
+    return 0;
+}
