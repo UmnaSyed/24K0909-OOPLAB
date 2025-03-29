@@ -119,21 +119,17 @@ int main() {
     SecurityCamera frontDoorCam("C1", "Front Door Camera", "Front Door", "1080p", true);
     SmartPlug kitchenPlug("P1", "Kitchen Smart Plug", "Kitchen", 2.5, 60);
 
-    cout << "\nTesting Light:" << endl;
     livingRoomLight.turnOn();
     livingRoomLight.displayInfo();
     livingRoomLight.turnOff();
 
-    cout << "\nTesting Thermostat:" << endl;
     livingRoomThermo.turnOn();
     livingRoomThermo.displayInfo();
     cout << "Status: " << livingRoomThermo.getStatus() << endl;
 
-    cout << "\nTesting Security Camera:" << endl;
     frontDoorCam.turnOn();
     frontDoorCam.displayInfo();
 
-    cout << "\nTesting Smart Plug:" << endl;
     kitchenPlug.turnOn();
     kitchenPlug.displayInfo();
     kitchenPlug.turnOff();
