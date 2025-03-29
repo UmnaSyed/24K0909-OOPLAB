@@ -1,1 +1,92 @@
+#include <iostream>
+#include <string>
+using namespace std;
 
+class Device {
+protected:
+    string deviceID;
+    string deviceName;
+    bool status;
+    string location;
+
+public:
+    Device(string id, string name, string loc) 
+        : deviceID(id), deviceName(name), location(loc), status(false) {}
+
+    virtual void turnOn() { status = true; }
+    virtual void turnOff() { status = false; }
+    
+    virtual string getStatus() {
+        return status ? "ON" : "OFF";
+    }
+    
+    virtual void displayInfo() {
+        cout << "Device ID: " << deviceID << "\n"
+             << "Name: " << deviceName << "\n"
+             << "Location: " << location << "\n"
+             << "Status: " << getStatus() << endl;
+    }
+};
+
+class Light : public Device {
+private:
+    int brightnessLevel;
+    string colorMode;
+
+public:
+    Light(string id, string name, string loc, int brightness, string color) 
+        : Device(id, name, loc), brightnessLevel(brightness), colorMode(color) {}
+
+    void displayInfo() override {
+        Device::displayInfo();
+        cout << "Brightness: " << brightnessLevel << "%\n"
+             << "Color Mode: " << colorMode << endl;
+    }
+};
+
+class Thermostat : public Device {
+private:
+    float currentTemp;
+    float targetTemp;
+    string mode;
+
+public:
+    Thermostat(string id, string name, string loc, float temp) 
+        : Device(id, name, loc), currentTemp(temp), targetTemp(temp), mode("cooling") {}
+
+    string getStatus() override {
+        return "Current Temperature: " + to_string(currentTemp) + "°C";
+    }
+};
+
+class SecurityCamera : public Device {
+private:
+    string resolution;
+    bool recordingStatus;
+    bool nightVisionEnabled;
+
+public:
+    SecurityCamera(string id, string name, string loc, string res, bool nightVision) 
+        : Device(id, name, loc), resolution(res), nightVisionEnabled(nightVision), recordingStatus(false) {}
+
+    void turnOn() override {
+        Device::turnOn();
+        recordingStatus = true;
+        cout << "Recording started" << endl;
+    }
+};
+
+class SmartPlug : public Device {
+private:
+    float powerConsumption;
+    int timerSetting; 
+
+public:
+    SmartPlug(string id, string name, string loc, float power) 
+        : Device(id, name, loc), powerConsumption(power), timerSetting(0) {}
+
+    void turnOff() override {
+        Device::turnOff();
+        cout << "Logged power usage: " << powerConsumption << " kWh" << endl;
+    }
+};
