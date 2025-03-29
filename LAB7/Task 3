@@ -1,0 +1,144 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Ticket {
+protected:
+    string ticketID;
+    string passengerName;
+    float price;
+    string date;
+    string destination;
+
+public:
+    Ticket(string id, string name, float p, string d, string dest) 
+        : ticketID(id), passengerName(name), price(p), date(d), destination(dest) {}
+
+    virtual void reserve() {
+        cout << "\nReserving ticket for " << passengerName << endl;
+        cout << "Ticket ID: " << ticketID << endl;
+        cout << "Destination: " << destination << endl;
+        cout << "Date: " << date << endl;
+        cout << "Price: $" << price << endl;
+    }
+
+    virtual void cancel() {
+        cout << "\nCancelling ticket for " << passengerName << endl;
+        cout << "Ticket ID: " << ticketID << " will be refunded." << endl;
+    }
+
+    virtual void displayTicketInfo() {
+        cout << "ID: " << ticketID << endl;
+        cout << "Passenger: " << passengerName << endl;
+        cout << "Price: $" << price << endl;
+        cout << "Date: " << date << endl;
+        cout << "Destination: " << destination << endl;
+    }
+};
+
+class FlightTicket : public Ticket {
+private:
+    string airlineName;
+    string flightNumber;
+    string seatClass;
+
+public:
+    FlightTicket(string id, string name, float p, string d, string dest, 
+                string airline, string flight, string seat) 
+        : Ticket(id, name, p, d, dest), airlineName(airline), flightNumber(flight), seatClass(seat) {}
+
+    void displayTicketInfo() override {
+        Ticket::displayTicketInfo();
+        cout << "Airline: " << airlineName << endl;
+        cout << "Flight: " << flightNumber << endl;
+        cout << "Class: " << seatClass << endl;
+    }
+};
+
+class TrainTicket : public Ticket {
+private:
+    string trainNumber;
+    string coachType;
+    string departureTime;
+
+public:
+    TrainTicket(string id, string name, float p, string d, string dest, 
+               string train, string coach, string time) 
+        : Ticket(id, name, p, d, dest), trainNumber(train), coachType(coach), departureTime(time) {}
+
+    void reserve() override {
+        Ticket::reserve();
+        cout << "Train Number: " << trainNumber << endl;
+        cout << "Coach Type: " << coachType << endl;
+        cout << "Departure Time: " << departureTime << endl;
+        cout << "Seat automatically assigned in " << coachType << " class." << endl;
+    }
+};
+
+class BusTicket : public Ticket {
+private:
+    string busCompany;
+    string seatNumber;
+
+public:
+    BusTicket(string id, string name, float p, string d, string dest, 
+             string company, string seat) 
+        : Ticket(id, name, p, d, dest), busCompany(company), seatNumber(seat) {}
+
+    void cancel() override {
+        Ticket::cancel();
+        cout << "Last-minute refund processed for seat " << seatNumber << endl;
+    }
+
+    void displayTicketInfo() override {
+        Ticket::displayTicketInfo();
+        cout << "Bus Company: " << busCompany << endl;
+        cout << "Seat Number: " << seatNumber << endl;
+    }
+};
+
+class ConcertTicket : public Ticket {
+private:
+    string artistName;
+    string venue;
+    string seatType;
+
+public:
+    ConcertTicket(string id, string name, float p, string d, string dest, 
+                 string artist, string v, string seat) 
+        : Ticket(id, name, p, d, dest), artistName(artist), venue(v), seatType(seat) {}
+
+    void displayTicketInfo() override {
+        Ticket::displayTicketInfo();
+        cout << "Artist: " << artistName << endl;
+        cout << "Venue: " << venue << endl;
+        cout << "Seat Type: " << seatType << endl;
+    }
+};
+
+int main() {
+
+    FlightTicket flight1("FL123", "Ali Khan", 789.29, "2022-06-13", "London", 
+                        "PI", "SW456", "Economy");
+    TrainTicket train1("KHI999", "Aliya Ahmed", 647.88, "2025-1-24", "Karachi", 
+                      "Northeast Express", "Business", "08:30 AM");
+    BusTicket bus1("BUS456", "Sarah", 891.99, "2025-11-25", "Chicago", 
+                  "City Transit", "14B");
+    ConcertTicket concert1("CT789", "Sarah Khan", 89.99, "2023-3-09", "Madison Square Garden", 
+                          "The Rockers", "MSG Arena", "VIP");
+
+    flight1.reserve();
+    flight1.displayTicketInfo();
+
+    train1.reserve();
+    train1.displayTicketInfo();
+
+    bus1.reserve();
+    bus1.displayTicketInfo();
+    bus1.cancel();
+
+    concert1.reserve();
+    concert1.displayTicketInfo();
+
+    return 0;
+}
