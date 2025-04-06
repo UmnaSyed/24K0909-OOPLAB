@@ -1,0 +1,92 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Complex {
+    private:
+    double  real, img;
+    public:
+
+    Complex(){
+        real =0.0;
+        img=0.0;
+    }
+
+    Complex (double r, double i){
+        real=r;
+        img=i;
+    }
+
+    Complex operator+(Complex const &comp) const{
+        Complex temp;
+        temp.real=real+comp.real;
+        temp.img=img+comp.img;
+        return temp;
+    }
+
+    Complex operator-(Complex const &comp) const{
+        Complex temp;
+        temp.real=real-comp.real;
+        temp.img=img-comp.img;
+        return temp;
+    }
+
+    Complex operator*(Complex const &comp) const{
+        Complex temp;
+        temp.real=(real*comp.real)-(img*comp.img);
+        temp.img=(real*comp.img)+(img*comp.real);
+        return temp;
+    }
+
+    Complex operator/(Complex const &comp) const{
+        Complex temp;
+        double den=comp.real*comp.real+comp.img*comp.img;
+        temp.real=(real*comp.real + img*comp.img)/den;
+        temp.img=(img*comp.real-real*comp.img)/den;
+        return temp;
+    }
+
+    friend ostream& operator<<(ostream &out, const Complex &comp);
+    friend double magnitude (Complex const &comp);
+
+};
+
+ostream& operator<<(ostream &out, Complex const &comp){
+    if (comp.img>=0){
+        out<<comp.real<<" + "<<comp.img<<"i"<<endl;
+    }
+
+    else {
+        out<<comp.real<<" - "<<comp.img<<"i"<<endl;
+    }
+
+    return out;
+}
+
+double magnitude(const Complex &comp){
+    double mag;
+    mag=sqrt((comp.real*comp.real) + (comp.img*comp.img));
+    return mag;
+}
+
+int main(){
+    Complex c1(7,10);
+    Complex c2(4,8);
+
+    Complex c3=c1+c2;
+    Complex c4=c1-c2;
+    Complex c5=c1*c2;
+    Complex c6=c1/c2;
+
+    cout<<"C1= "<<c1<<endl;
+    cout<<"\nC2= "<<c2<<endl;
+    cout<<"\nSum of C1 and C2= "<<c3<<endl;
+    cout<<"\nDifference of C1 and C2= "<<c4<<endl;
+    cout<<"\nProduct of C1 and C2= "<<c5<<endl;
+    cout<<"\nDivision of C1 and C2= "<<c6<<endl;
+
+    cout<<"\nMagnitude of C1: "<<magnitude(c1)<<endl;
+    cout<<"\nMagnitude of C2: "<<magnitude(c2)<<endl;
+
+    return 0;
+}
