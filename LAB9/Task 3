@@ -1,1 +1,77 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Course {
+protected:
+    string courseCode;
+    int credits;
+
+public:
+    Course(string code, int creds) : courseCode(code), credits(creds) {}
+    virtual void calculateGrade() = 0;
+    virtual void displayInfo() = 0;  
+    virtual ~Course() {}              
+};
+
+class LectureCourse : public Course {
+private:
+    int midtermMarks;
+    int finalMarks;
+    double finalGrade;
+
+public:
+    LectureCourse(string code, int creds, int midterm, int finalExam)
+        : Course(code, creds), midtermMarks(midterm), finalMarks(finalExam), finalGrade(0.0) {}
+
+    void calculateGrade() override {
+        finalGrade = (midtermMarks * 0.4) + (finalMarks * 0.6);
+        cout << "Lecture Course [" << courseCode << "] Final Grade: " << finalGrade << endl;
+    }
+
+    void displayInfo() override {
+        cout << "Lecture Course Info:" << endl;
+        cout << "Course Code: " << courseCode << endl;
+        cout << "Credits: " << credits << endl;
+    }
+};
+
+class LabCourse : public Course {
+private:
+    int labMarks;
+    int projectMarks;
+    double finalGrade;
+
+public:
+    LabCourse(string code, int creds, int lab, int project)
+        : Course(code, creds), labMarks(lab), projectMarks(project), finalGrade(0.0) {}
+
+    void calculateGrade() override {
+        finalGrade = (labMarks * 0.5) + (projectMarks * 0.5); 
+        cout << "Lab Course [" << courseCode << "] Final Grade: " << finalGrade << endl;
+    }
+
+    void displayInfo() override {
+        cout << "Lab Course Info:" << endl;
+        cout << "Course Code: " << courseCode << endl;
+        cout << "Credits: " << credits << endl;
+    }
+};
+
+
+int main() {
+    LectureCourse lecture("CS101", 3, 80, 90);
+    LabCourse lab("CS101L", 1, 85, 95);
+
+    Course* courses[2];
+    courses[0] = &lecture;
+    courses[1] = &lab;
+
+    for (int i = 0; i < 2; i++) {
+        courses[i]->displayInfo();
+        courses[i]->calculateGrade();
+    }
+
+    return 0;
+}
 
