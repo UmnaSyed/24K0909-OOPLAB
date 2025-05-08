@@ -1,0 +1,41 @@
+#include <iostream>
+#include <stdexcept>
+#include <exception>
+
+class DatabaseException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "A database error occurred.";
+    }
+};
+
+class ConnectionFailedException : public DatabaseException {};
+class QueryTimeoutException : public DatabaseException {};
+
+template <typename T>
+class DatabaseConnector {
+public:
+    void connect(const std::string& db) {
+        if (db == "invalid_db") {
+            throw ConnectionFailedException();
+        } else if (db == "slow_db") {
+            throw DatabaseException();
+        }
+    }
+};
+
+int main() {
+    try {
+        DatabaseConnector<int> connector;
+        connector.connect("invalid_db"); 
+    } catch (const ConnectionFailedException& e) {
+        std::cout << "Caught ConnectionFailedException - what(): " << e.what() << std::endl;
+    }
+
+    try {
+        DatabaseConnector<int> connector;
+        connector.connect("slow_db"); 
+    } catch (const DatabaseException& e) {
+        std::cout << "Caught a general DatabaseException - what(): " << e.what() << std::endl;
+    }
+}
