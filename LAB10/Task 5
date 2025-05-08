@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string Type = "HybridTruck";
+    string ExtraData = "Cargo:5000 | Battery:75";
+
+    if (Type == "HybridTruck") {
+        size_t posCargo = ExtraData.find("Cargo:");
+        size_t posPipe = ExtraData.find('|');
+        size_t posBattery = ExtraData.find("Battery:");
+
+        if (posCargo != string::npos && posPipe != string::npos && posBattery != string::npos) {
+            string cargoStr = ExtraData.substr(posCargo + 6, posPipe - posCargo - 6);
+            string batteryStr = ExtraData.substr(posBattery + 8);
+
+            int cargo = stoi(cargoStr);
+            int battery = stoi(batteryStr);
+
+            cout << "Cargo Capacity: " << cargo << " kg\n";
+            cout << "Battery Capacity: " << battery << " kWh\n";
+        }
+    } else {
+        cout << "Unknown vehicle type." << endl;
+    }
+
+    return 0;
+}
