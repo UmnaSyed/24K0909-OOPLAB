@@ -1,0 +1,27 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+
+    ofstream fout("config.txt");
+    fout << "AAAAABBBBBCCCCC";
+    fout.close();
+
+    fstream file("config.txt", ios::in | ios::out);
+    if (!file) {
+        cout << "Error opening file.\n";
+        return 1;
+    }
+
+    file.seekp(5); 
+    file << "XXXXX";
+    file.close();
+
+    ifstream fin("config.txt");
+    string updatedContent;
+    getline(fin, updatedContent);
+    cout << "Updated Config Content: " << updatedContent << endl;
+
+    return 0;
+}
