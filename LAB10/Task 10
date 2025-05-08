@@ -1,0 +1,23 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main() {
+    streampos offset = 18; 
+
+    ifstream fin("data_records.txt");
+    if (!fin) {
+        cout << "Error opening file.\n";
+        return 1;
+    }
+
+    fin.seekg(offset, ios::beg);
+
+    string record;
+    getline(fin, record);
+    cout << "Third Record: " << record << endl;
+
+    fin.close();
+    return 0;
+}
