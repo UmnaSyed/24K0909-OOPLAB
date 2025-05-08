@@ -1,0 +1,34 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+using namespace std;
+
+struct InventoryItem {
+    int itemID;
+    char itemName[20];
+};
+
+int main() {
+    InventoryItem item1 = {101, "Smart Sensor"};
+    ofstream outFile("inventory.dat", ios::binary);
+    if (!outFile) {
+        cout << "Error writing to file.\n";
+        return 1;
+    }
+    outFile.write(reinterpret_cast<char*>(&item1), sizeof(item1));
+    outFile.close();
+
+    InventoryItem item2;
+    ifstream inFile("inventory.dat", ios::binary);
+    if (!inFile) {
+        cout << "Error reading from file.\n";
+        return 1;
+    }
+    inFile.read(reinterpret_cast<char*>(&item2), sizeof(item2));
+    inFile.close();
+
+    cout << "Loaded Item ID: " << item2.itemID << endl;
+    cout << "Loaded Item Name: " << item2.itemName << endl;
+
+    return 0;
+}
