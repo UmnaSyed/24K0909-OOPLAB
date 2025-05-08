@@ -1,0 +1,23 @@
+#include <iostream>
+#include <stdexcept>
+#include <exception>
+
+class InvalidTemperatureException : public std::exception {};
+
+template <typename T>
+T convertToFahrenheit(T celsius) {
+    if (celsius < -273.15) {
+        throw InvalidTemperatureException();
+    }
+    return (celsius * 9 / 5) + 32;
+}
+
+int main() {
+    try {
+        double celsius = -300;
+        std::cout << "Attempting to convert " << celsius << "C..." << std::endl;
+        convertToFahrenheit(celsius); 
+    } catch (const InvalidTemperatureException& e) {
+        std::cout << "Caught InvalidTemperatureException - what(): " << e.what() << std::endl;
+    }
+}
