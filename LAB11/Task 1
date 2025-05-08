@@ -1,0 +1,86 @@
+#include <iostream>
+#include <stdexcept>
+#include <exception>
+
+class DimensionMismatchException : public std::exception {
+private:
+    std::string message;
+public:
+    DimensionMismatchException(int rows1, int cols1, int rows2, int cols2) {
+        message = "Matrices must have same dimensions (" + std::to_string(rows1) + "x" + std::to_string(cols1) +
+                  " vs " + std::to_string(rows2) + "x" + std::to_string(cols2) + ")!";
+    }
+    const char* what() const noexcept override {
+        return message.c_str();
+    }
+};
+
+template <typename T>
+class Matrix {
+private:
+    int rows, cols;
+    T** data;
+public:
+    Matrix(int rows, int cols) : rows(rows), cols(cols) {
+        data = new T*[rows];
+        for (int i = 0; i < rows; ++i) {
+            data[i] = new T[cols];
+        }
+    }
+
+    ~Matrix() {
+        for (int i = 0; i < rows; ++i) {
+            delete[] data[i];
+        }
+        delete[] data;
+    }
+
+    void setValue(int row, int col, T value) {
+        data[row][col] = value;
+    }
+
+    T getValue(int row, int col) const {
+        return data[row][col];
+    }
+
+    Matrix<T> operator+(const Matrix<T>& other) {
+        if (this->rows != other.rows || this->cols != other.cols) {
+            throw DimensionMismatchException(this->rows, this->cols, other.rows, other.cols);
+        }
+        Matrix<T> result(this->rows, this->cols);
+        for (int i = 0; i < this->rows; ++i) {
+            for (int j = 0; j < this->cols; ++j) {
+                result.setValue(i, j, this->data[i][j] + other.data[i][j]);
+            }
+        }
+        return result;
+    }
+};
+
+int main() {
+    try {
+        Matrix<int> A(2, 2);
+        Matrix<int> B(3, 3);
+
+        // Set some values for testing
+        A.setValue(0, 0, 1);
+        A.setValue(0, 1, 2);
+        A.setValue(1, 0, 3);
+        A.setValue(1, 1, 4);
+
+        B.setValue(0, 0, 5);
+        B.setValue(0, 1, 6);
+        B.setValue(0, 2, 7);
+        B.setValue(1, 0, 8);
+        B.setValue(1, 1, 9);
+        B.setValue(1, 2, 10);
+        B.setValue(2, 0, 11);
+        B.setValue(2, 1, 12);
+        B.setValue(2, 2, 13);
+
+        Matrix<int> C = A + B; 
+    } catch (const DimensionMismatchException& e) {
+        std::cout << "Caught DimensionMismatchException: " << e.what() << std::endl;
+    }
+}
+
