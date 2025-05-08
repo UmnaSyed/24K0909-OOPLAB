@@ -1,0 +1,24 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+    ifstream fin("large_log.txt");
+    if (!fin) {
+        cout << "Error opening file.\n";
+        return 1;
+    }
+
+    char buffer[11] = {}; 
+    fin.read(buffer, 10);
+    cout << "First 10 characters: " << buffer << endl;
+    cout << "Position after first read: " << fin.tellg() << endl;
+
+    fin.read(buffer, 10);
+    buffer[10] = '\0';
+    cout << "Next 10 characters: " << buffer << endl;
+    cout << "Position after second read: " << fin.tellg() << endl;
+
+    fin.close();
+    return 0;
+}
