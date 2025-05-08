@@ -1,0 +1,39 @@
+#include <iostream>
+#include <stdexcept>
+#include <exception>
+
+class NegativeStockException : public std::exception {};
+class OverCapacityException : public std::exception {};
+
+template <typename T>
+class InventoryItem {
+private:
+    T stock;
+    const T max_capacity = 100;
+
+public:
+    void setStock(T value) {
+        if (value < 0) {
+            throw NegativeStockException();
+        } else if (value > max_capacity) {
+            throw OverCapacityException();
+        }
+        stock = value;
+    }
+};
+
+int main() {
+    try {
+        InventoryItem<int> item;
+        item.setStock(-5); 
+    } catch (const NegativeStockException& e) {
+        std::cout << "Caught NegativeStockException - what(): " << e.what() << std::endl;
+    }
+
+    try {
+        InventoryItem<int> item;
+        item.setStock(120); 
+    } catch (const OverCapacityException& e) {
+        std::cout << "Caught OverCapacityException - what(): " << e.what() << std::endl;
+    }
+}
